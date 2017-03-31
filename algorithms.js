@@ -114,7 +114,7 @@ var sumDigits = function(n) {
   return sum;
 };
 
-// WORKING SOLUTION 4: Recursion without inner function
+// WORKING SOLUTION 4: Recursion w/o inner function, using ARRAY methods
 var sumDigits = function(n) {
   
   var sum = 0;
@@ -139,10 +139,32 @@ var sumDigits = function(n) {
   return sum;
 };
 
-sumDigits(126) // 9
-sumDigits(49) // 13
-sumDigits(12) // 3
 
+// WORKING SOLUTION 5: Recursion w/o inner function, using STRING methods
+var sumDigits = function(n) {
+  
+  var sum = 0;
+  var numString = n.toString();
+  sum += parseInt(numString[0]);   
+  
+  numString = numString.slice(1);
+  if (numString.length > 0) {
+    sum += sumDigits(parseInt(numString));
+  }
+  return sum;
+};
+
+// WORKING SOLUTION 6: Recursion w/o inner function, using pure MATH methods!!
+var sumDigits = function(n) {
+  
+  var sum = 0;
+  sum += n % 10;
+  
+  if (n > 0) {
+    sum += sumDigits(Math.floor(n/10));
+  }
+  return sum;
+};
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -151,12 +173,17 @@ sumDigits(12) // 3
 
 // Problem #3
 // Check if a given number is a power of 2
-// PowerOfTwo(8) -> true
+// isPowerOfTwo(8) -> true
 // PowerOfTwo(9) -> false
 
+// WORKING SOLUTION 1: Without recursion. Recursion really isn't needed here...
 var isPowerOfTwo = function(n){
-
+  if (n % 2 === 0 ) {
+    return true;
+  }
+  return false
 };
+
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
@@ -171,9 +198,26 @@ var isPowerOfTwo = function(n){
 // (For example, if the initial investment is 1000 and the interest rate is 10 percent,
 // then after one year the investment will be worth 1100, after two years 1210, after three years 1331, etc.)
 
-var invest = function(amount){
+// WORKING SOLUTION 1: With recursion
+var invest = function(amount, interestRate, years){
 
+  if (years === 0) {
+    return amount;
+  }
+
+  var roi = amount + amount * interestRate;
+  years--; 
+
+  if (years > 0) {
+    roi += invest(amount, interestRate, years); 
+  }
+  return roi; 
 };
+
+invest(1000, 0.10, 0); // 1000
+invest(1000, 0.10, 1); // 1100
+invest(1000, 0.10, 2); // 1210
+invest(1000, 0.10, 3); // 1331
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
@@ -188,9 +232,22 @@ var invest = function(amount){
 // ex:
 //    printRangeUpDown(4, 10);
 //    console.logs: 4,5,6,7,8,9,10,9,8,7,6,5,4
+// given a min and a max, both integers, use recursion to console.log all of the
+// integers from the min to the max, and then console.log the numbers from the max
+// to the min. Do not use loops! Use recursion.
+
+// WORKING SOLUTION 1: Recursion unwinding
 var printRangeUpDown = function(min, max){
 
+  console.log(min); 
+
+  if (min < max) {  
+    printRangeUpDown(min+1, max); 
+    console.log(min);    
+  }
 };
+
+printRangeUpDown(4, 10); // 4,5,6,7,8,9,10,9,8,7,6,5,4
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
