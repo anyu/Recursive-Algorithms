@@ -20,9 +20,42 @@
 // Write a recursive method called countVowels that returns the number of vowels in a given String
 // countVowels('abcedfg') ->2
 
+// WORKING SOLUTION 1: Without recursion
 var countVowels = function(str){
 
+	// Create an array holding vowels
+	var vowels = ['a', 'e', 'i', 'o', 'u'];
+	// Create a counter
+	var numVowels = 0;
+
+	// Loop through string, check if character in string is a vowel; if so, increment counter
+	for (var i = 0; i < str.length; i++) {
+		if (vowels.includes(str.charAt(i))) {
+			numVowels++;
+		}
+	}
+	return numVowels;
+
 };
+
+// WORKING SOLUTION 2: With recursion
+var countVowels = function(str){
+
+	var vowels = ['a', 'e', 'i', 'o', 'u'];
+	var numVowels = 0;
+
+	if (vowels.includes(str.charAt(0))) {
+		numVowels++;
+	}
+
+	 for (var i = 1; i < str.length; i++) {
+	  numVowels = numVowels + countVowels(str.charAt(i)); // Need to sum existing numVowels with numVowels of next character
+	 }
+	return numVowels;
+};
+
+countVowels('abcedfg'); // should return 2
+countVowels('whatsupdog maestro'); // should return 6
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
@@ -34,9 +67,83 @@ var countVowels = function(str){
 // sumDigits(49) → 13
 // sumDigits(12) → 3
 
-var recursiveSum = function(n){
+// WORKING SOLUTION 1: Without recursion
+var sumDigits = function(n){
+	var numString = n.toString(); // '126'
+	var digits = [];
+	var sum = 0;
 
+	for (var i = 0; i < numString.length; i++) {
+		digits.push(parseInt(numString.charAt(i))); // digits = [1,2,6]
+	} 
+
+	for (var j = 0; j < digits.length; j++) {
+		sum = sum + digits[j];
+	} 
+	return sum;
 };
+
+// WORKING SOLUTION 2: With reduce instead of for loops
+
+var sumDigits = function(n){
+  var numStringArray = n.toString().split(''); // [ '1', '6', '9' ]
+  
+  var sum = numStringArray.reduce(function(acc, value) {
+    return acc + parseInt(value);
+  },0);
+
+  return sum;
+};
+
+
+// WORKING SOLUTION 3: Recursion with inner function
+var sumDigits = function(n) {
+  
+  var sum = 0;
+  var numStringArray = n.toString().split(''); // [ '1', '2', '6' ]
+  
+  var traverse = function(array) {
+    sum = sum + parseInt(array.shift());   // sum = 0+1; sum = 1+2; sum = 3+6
+    if (array.length !== 0) {
+      sum = traverse(array);
+    }
+    return sum;
+  }
+  
+  traverse(numStringArray);
+  return sum;
+};
+
+// WORKING SOLUTION 4: Recursion without inner function
+var sumDigits = function(n) {
+  
+  var sum = 0;
+  
+  // Split given number into an array of string digits, eg. 126 becomes ['1','2','6']
+  var numStringArray = n.toString().split('');
+ 
+  /* Convert first value in array back to number, add it to sum, eg. sum = sum + 1
+   * Remove that number from the array, eg. ['2','6']
+  */
+  
+  sum += parseInt(numStringArray.shift());   
+  
+  /* Check if there are still values within remaining array
+   * Convert array of digits back into a string, convert that back into a number
+   * Call sumDigits recursively on that converted number, add to sum
+  */
+  
+  if (numStringArray.length !== 0) {
+    sum += sumDigits(parseInt(numStringArray.join('')));
+  }
+  return sum;
+};
+
+sumDigits(126) // 9
+sumDigits(49) // 13
+sumDigits(12) // 3
+
+
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
