@@ -166,6 +166,9 @@ var sumDigits = function(n) {
   return sum;
 };
 
+sumDigits(126)// 9
+sumDigits(49) // 13
+sumDigits(12) // 3
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
@@ -178,11 +181,21 @@ var sumDigits = function(n) {
 
 // WORKING SOLUTION 1: Without recursion. Recursion really isn't needed here...
 var isPowerOfTwo = function(n){
-  if (n % 2 === 0 ) {
+  if (n == 2) {
     return true;
   }
-  return false
+  if (n < 2) {
+    return false;
+  }
+  
+  return isPowerOfTwo(n/2); 
 };
+
+isPowerOfTwo(4); // true
+isPowerOfTwo(9); // false
+isPowerOfTwo(6); // false
+isPowerOfTwo(64); // true
+isPowerOfTwo(128); // true
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -260,9 +273,41 @@ printRangeUpDown(4, 10); // 4,5,6,7,8,9,10,9,8,7,6,5,4
 // remember, binary tree's are different from binary search trees!
 // you'll need to create a binary tree constructor!
 
-var binaryTreeSum = function(tree){
+//return the sum of all of the values.
+// remember, binary tree's are different from binary search trees!
+// you'll need to create a binary tree constructor!
 
+var BinaryTree = function(value) {
+  this.value = value;
+  this.left = null;
+  this.right = null;
+}
+
+var binaryTreeSum = function(tree){
+  
+  if (!tree.value) {
+    return "Tree has no value";
+  }
+  var sum = tree.value;
+
+  if (tree.left !== null) {
+    sum += binaryTreeSum(tree.left);
+  }
+
+  if (tree.right !== null) {
+    sum += binaryTreeSum(tree.right);
+  }  
+  
+  return sum;
 };
+
+var root = new BinaryTree(1);
+root.left = new BinaryTree(2);
+root.right = new BinaryTree(3);
+root.right.right = new BinaryTree(4);
+
+console.log(BinaryTree(root)); // expect 10
+
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
@@ -285,4 +330,20 @@ var binaryTreeSum = function(tree){
 // you'll need to create a binary search tree constructor!
 var arrayToBinarySearchTree = function(array){
 
+
+
+
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
