@@ -179,9 +179,8 @@ sumDigits(12) // 3
 // isPowerOfTwo(8) -> true
 // PowerOfTwo(9) -> false
 
-// WORKING SOLUTION 1: Without recursion. Recursion really isn't needed here...
 var isPowerOfTwo = function(n){
-  if (n == 2) {
+  if (n === 2) {
     return true;
   }
   if (n < 2) {
